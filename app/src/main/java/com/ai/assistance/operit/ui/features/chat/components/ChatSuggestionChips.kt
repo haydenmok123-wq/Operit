@@ -1,7 +1,9 @@
 package com.ai.assistance.operit.ui.features.chat.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,27 @@ import com.ai.assistance.operit.ui.features.chat.viewmodel.ChatViewModel
  * - 最后一条是 AI 回复、且不在生成中时，给一组追问建议。
  * 点一下直接把这句话发出去。
  */
+private val OPTIONS_BLOCK_REGEX =
+    Regex("<options>([\\s\\S]*?)</options>", RegexOption.IGNORE_CASE)
+
+/** 从 AI 回复里解析 <options> 块，一行一个选项 */
+internal fun parseAssistantOptions(content: String): List<String> {
+    val block = OPTIONS_BLOCK_REGEX.find(content)?.groupValues?.getOrNull(1) ?: return emptyList()
+    return block
+        .lines()
+        .map { line ->
+            line.trim()
+                .removePrefix("-")
+                .removePrefix("*")
+                .removePrefix("•")
+                .trim()
+                .trimStart('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', ')', '、')
+                .trim()
+        }
+        .filter { it.isNotEmpty() }
+        .take(6)
+}
+
 @Composable
 fun ChatSuggestionChips(
     actualViewModel: ChatViewModel,
@@ -55,6 +78,47 @@ fun ChatSuggestionChips(
             stringResource(R.string.chat_suggestion_followup_example),
             stringResource(R.string.chat_suggestion_followup_shorter),
         )
+
+    val assistantOptions =
+        if (!isLoading && lastMessage?.sender == "ai") {
+            parseAssistantOptions(lastMessage.content)
+        } else {
+            emptyList()
+        }
+
+    if (assistantOptions.isNotEmpty()) {
+        Surface(
+            modifier = modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f),
+            tonalElevation = 0.dp,
+            shadowElevation = 0.dp,
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                Text(
+                    text = stringResource(R.string.chat_suggestion_pick_option),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 6.dp),
+                )
+                assistantOptions.forEach { option ->
+                    Text(
+                        text = option,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { actualViewModel.sendTextMessage(option) }
+                                .padding(vertical = 8.dp, horizontal = 4.dp),
+                    )
+                }
+            }
+        }
+        return
+    }
 
     val suggestions: List<String> =
         when {

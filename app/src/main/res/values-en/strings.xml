@@ -5366,6 +5366,7 @@
     <string name="show_message_timestamp">Show Message Time</string>
     <string name="show_message_timestamp_description">Show the time of that AI message below it</string>
     <string name="chat_message_token_stats_compact">token: %1$d ↑ %3$d (cache: %2$d) ↓ %4$d (hit: %5$s)</string>
+    <string name="chat_suggestion_pick_option">Pick one to continue</string>
     <string name="chat_suggestion_starter_capability">What can you do?</string>
     <string name="chat_suggestion_starter_code">Write some code for me</string>
     <string name="chat_suggestion_starter_summary">Summarize this for me</string>
