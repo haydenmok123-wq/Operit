@@ -482,7 +482,7 @@ fun ChatScreenContent(
                                         .drawBackdrop(
                                                 glassBackdrop,
                                                 { RectangleShape },
-                                                { blur(20.dp) },
+                                                { blur(20f) },
                                         ),
                 ) {
                         ChatScreenHeader(
