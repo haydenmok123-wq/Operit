@@ -1551,18 +1551,6 @@ private fun MessageFooterBar(
             )
         }
 
-        if (message.sender == "ai" && message.waitDurationMs > 0L) {
-            Text(
-                text =
-                    stringResource(
-                        R.string.chat_message_thinking_duration,
-                        formatCompactDuration(message.waitDurationMs),
-                    ),
-                style = MaterialTheme.typography.labelSmall,
-                color = statsTextColor,
-            )
-        }
-
         if (showMessageTimingStats && hasDisplayableTimingStats(message)) {
             Text(
                 text = timeSummary,
