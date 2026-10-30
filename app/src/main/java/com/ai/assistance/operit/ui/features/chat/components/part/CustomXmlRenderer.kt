@@ -119,6 +119,11 @@ class CustomXmlRenderer(
         if (shouldHideHiddenMeta(trimmedContent, tagName)) {
             return
         }
+
+        // <options> 由输入框上方的选择卡片负责呈现，消息正文里不重复显示
+        if (tagName.equals("options", ignoreCase = true)) {
+            return
+        }
         
         // 无障碍朗读描述：只朗读块类型
         val accessibilityDesc = when (tagName) {
