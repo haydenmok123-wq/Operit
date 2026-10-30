@@ -5834,6 +5834,7 @@
     <string name="chat_suggestion_followup_detail">再详细说说</string>
     <string name="chat_suggestion_followup_example">给个例子</string>
     <string name="chat_suggestion_followup_shorter">简短一点</string>
+    <string name="chat_message_thinking_duration">思考 %1$s</string>
     <string name="chat_message_timing_stats_compact">usage: %1$s (首 %2$s 生成 %3$s)</string>
     <string name="chat_message_token_speed_compact">%1$s t/s</string>
     <string name="chat_message_timestamp_compact">time: %1$s</string>

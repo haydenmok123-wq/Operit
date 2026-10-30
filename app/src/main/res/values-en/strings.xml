@@ -5374,6 +5374,7 @@
     <string name="chat_suggestion_followup_detail">Tell me more</string>
     <string name="chat_suggestion_followup_example">Give me an example</string>
     <string name="chat_suggestion_followup_shorter">Make it shorter</string>
+    <string name="chat_message_thinking_duration">Thought for %1$s</string>
     <string name="chat_message_timing_stats_compact">usage: %1$s (first %2$s out %3$s)</string>
     <string name="chat_message_token_speed_compact">%1$s t/s</string>
     <string name="chat_message_timestamp_compact">time: %1$s</string>
