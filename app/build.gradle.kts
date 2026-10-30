@@ -367,6 +367,14 @@ android {
     }
 
     signingConfigs {
+        // 固定调试签名：让每一轮 CI 产物签名一致，可直接覆盖安装（数据不丢）
+        create("modFixed") {
+            storeFile = file("mod-signing.jks")
+            storePassword = "operitmod123"
+            keyAlias = "operitmod"
+            keyPassword = "operitmod123"
+        }
+
         val releaseKeystorePath = localProperties.getProperty("RELEASE_STORE_FILE")
         val releaseStorePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
         val releaseKeyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
@@ -434,12 +442,13 @@ android {
         }
         debug {
             applicationIdSuffix = ".debug"
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("modFixed")
             resValue("string", "app_name", "Operit Debug")
         }
         create("clone") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".clone"
+            signingConfig = signingConfigs.getByName("modFixed")
             if (releaseSigningConfig != null) {
                 signingConfig = releaseSigningConfig
             }
