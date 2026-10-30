@@ -1870,6 +1870,9 @@ private fun ChatInputBottomBar(
         }
     }
 
+    Column(modifier = Modifier.fillMaxWidth()) {
+        ChatSuggestionChips(actualViewModel = actualViewModel)
+
     if (inputStyle == UserPreferencesManager.INPUT_STYLE_AGENT) {
         AgentChatInputSection(
                 actualViewModel = actualViewModel,
@@ -2029,6 +2032,7 @@ private fun ChatInputBottomBar(
                     }
                 },
         )
+    }
     }
 }
 
