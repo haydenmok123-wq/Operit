@@ -5826,6 +5826,7 @@
     <string name="show_message_timestamp">显示消息时间</string>
     <string name="show_message_timestamp_description">在 AI 消息底部显示该条消息的时间</string>
     <string name="chat_message_token_stats_compact">token: %1$d ↑ %3$d (cache: %2$d) ↓ %4$d (hit: %5$s)</string>
+    <string name="chat_message_thinking_duration">思考 %1$s</string>
     <string name="chat_message_timing_stats_compact">usage: %1$s (首 %2$s 生成 %3$s)</string>
     <string name="chat_message_token_speed_compact">%1$s t/s</string>
     <string name="chat_message_timestamp_compact">time: %1$s</string>

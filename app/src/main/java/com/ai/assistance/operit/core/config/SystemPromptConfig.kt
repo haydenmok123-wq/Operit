@@ -173,6 +173,11 @@ PACKAGE_SYSTEM_GUIDELINES_SECTION
 ACTIVE_PACKAGES_SECTION
 
 AVAILABLE_TOOLS_SECTION
+
+REASONING FORMAT (IMPORTANT):
+- Put ALL internal reasoning, trade-offs and trial-and-error inside <thinking>...</thinking>. Never write it into the visible reply body.
+- Keep <thinking> short: key judgements only, never restate the user's message, never narrate obvious steps; stay within about 200 words to save context.
+- The visible body must contain only the conclusion, the result and the next step.
 """.trimIndent()
 
 
@@ -189,7 +194,12 @@ PACKAGE_SYSTEM_GUIDELINES_SECTION
 
 ACTIVE_PACKAGES_SECTION
 
-AVAILABLE_TOOLS_SECTION""".trimIndent()
+AVAILABLE_TOOLS_SECTION
+
+思考格式（重要）：
+- 所有推理、权衡、试错过程都必须写进 <thinking>...</thinking>，不要写进正文。
+- <thinking> 要短：只写关键判断，不复述用户原话、不逐字推演，尽量控制在 200 字以内，以免浪费上下文。
+- 正文只给结论、结果和下一步建议。""".trimIndent()
 
     /**
      * Prompt for a subtask agent that should be strictly task-focused,
