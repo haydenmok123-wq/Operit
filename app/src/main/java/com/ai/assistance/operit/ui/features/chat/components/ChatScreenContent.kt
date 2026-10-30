@@ -40,6 +40,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.RectangleShape
+import com.kyant.backdrop.backdrops.layerBackdrop
+import com.kyant.backdrop.backdrops.rememberLayerBackdrop
+import com.kyant.backdrop.drawBackdrop
+import com.kyant.backdrop.effects.blur
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import com.ai.assistance.operit.data.model.ChatHistory
@@ -365,15 +371,10 @@ fun ChatScreenContent(
                 )
             }
         } else {
-            Column(modifier = Modifier.fillMaxSize()) {
-                ChatScreenHeader(
-                        actualViewModel = actualViewModel,
-                        showChatHistorySelector = showChatHistorySelector,
-                        chatHeaderTransparent = chatHeaderTransparent,
-                        chatHeaderHistoryIconColor = chatHeaderHistoryIconColor,
-                        chatHeaderPipIconColor = chatHeaderPipIconColor,
-                        onCharacterSwitcherClick = { onShowCharacterSelectorChange(true) }
-                )
+            val glassBackdrop = rememberLayerBackdrop()
+            var glassHeaderHeightPx by remember { mutableStateOf(0) }
+            val glassDensity = LocalDensity.current
+            Box(modifier = Modifier.fillMaxSize()) {
                 ChatArea(
                         chatHistory = chatHistory,
                         currentChatId = currentChatId,
@@ -389,7 +390,8 @@ fun ChatScreenContent(
                         thinkingBackgroundColor = thinkingBackgroundColor,
                         thinkingTextColor = thinkingTextColor,
                         hasBackgroundImage = hasBackgroundImage,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().layerBackdrop(glassBackdrop),
+                        topPadding = with(glassDensity) { glassHeaderHeightPx.toDp() },
                         onSelectMessageToEdit = onSelectMessageToEditCallback,
                         onDeleteMessage = { index -> actualViewModel.deleteMessage(index) },
                         onDeleteCurrentMessageVariant = { index ->
@@ -471,6 +473,27 @@ fun ChatScreenContent(
                         bubbleAiContentPaddingLeft = bubbleAiContentPaddingLeft,
                         bubbleAiContentPaddingRight = bubbleAiContentPaddingRight,
                 )
+
+                Box(
+                        modifier =
+                                Modifier
+                                        .fillMaxWidth()
+                                        .onSizeChanged { glassHeaderHeightPx = it.height }
+                                        .drawBackdrop(
+                                                glassBackdrop,
+                                                { RectangleShape },
+                                                { blur(20.dp) },
+                                        ),
+                ) {
+                        ChatScreenHeader(
+                                actualViewModel = actualViewModel,
+                                showChatHistorySelector = showChatHistorySelector,
+                                chatHeaderTransparent = true,
+                                chatHeaderHistoryIconColor = chatHeaderHistoryIconColor,
+                                chatHeaderPipIconColor = chatHeaderPipIconColor,
+                                onCharacterSwitcherClick = { onShowCharacterSelectorChange(true) }
+                        )
+                }
             }
         }
 

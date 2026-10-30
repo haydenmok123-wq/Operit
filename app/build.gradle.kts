@@ -577,6 +577,8 @@ kotlin {
 
 dependencies {
     implementation("com.github.jelmerk:hnswlib-core:1.2.1")
+    // Liquid Glass（iOS 26 风格真玻璃：折射 + 模糊 + 高光）
+    implementation("io.github.kyant0:backdrop:1.0.2")
     implementation(project(":dragonbones"))
     implementation(project(":terminal"))
     implementation(project(":mnn"))
